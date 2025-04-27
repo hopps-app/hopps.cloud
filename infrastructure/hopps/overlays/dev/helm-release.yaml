@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.1
+      version: 0.1.3
   interval: 1m0s
   values:
     azDocumentAi:
@@ -181,22 +181,41 @@ spec:
     # use already available keycloak
     keycloak:
       enabled: true
-      resourcesPreset: "none"
-      postgresql:
-        enabled: false
-      externalDatabase:
-        host: postgres-cluster
+      database:
+        vendor: postgres
+        hostname: postgres-cluster
+        port: 5432
         database: keycloak
-        post: 5432
+        username: keycloak
         existingSecret: hopps-dev.keycloak.postgres-cluster.credentials.postgresql.acid.zalan.do
-        existingSecretUserKey: "username"
-        existingSecretPasswordKey: "password"
       ingress:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
           nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:5173"
-        hostname: id.${DOMAIN_2}
+          # disable public access to metrics endpoint
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location ~* /auth/realms/[^/]+/metrics {
+                return 403;
+            }
+        rules:
+          - host: id.${DOMAIN_2}
+            paths:
+              - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+                pathType: Prefix
+        tls:
+          - secretName: keycloak-tls
+            hosts:
+              - id.${DOMAIN_2}
         ingressClassName: nginx
-        tls: true
+      extraEnv: |
+        - name: JAVA_OPTS_APPEND
+          value: >-
+            -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+      serviceMonitor:
+        enabled: true
+      # configure proxy through env variables
+      proxy:
+        enabled: true
+        mode: xforwarded
