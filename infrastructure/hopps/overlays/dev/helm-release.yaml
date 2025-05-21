@@ -181,6 +181,9 @@ spec:
         host: kafka-ui.${DOMAIN_2}
     # use already available keycloak
     keycloak:
+      http:
+        # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
+        relativePath: "/"
       tag: 18-keycloak-26.2.1
       enabled: true
       command:
@@ -209,7 +212,7 @@ spec:
         rules:
           - host: id.${DOMAIN_2}
             paths:
-              - path: '/'
+              - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
                 pathType: Prefix
         tls:
           - secretName: keycloak-tls
