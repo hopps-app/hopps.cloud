@@ -183,6 +183,10 @@ spec:
     keycloak:
       tag: 18-keycloak-26.2.1
       enabled: true
+      command:
+        - "/opt/keycloak/bin/kc.sh"
+        - "start"
+        - "--http-port=8080"
       database:
         vendor: postgres
         hostname: postgres-cluster
