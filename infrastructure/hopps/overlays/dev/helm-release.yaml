@@ -187,12 +187,13 @@ spec:
         - "/opt/keycloak/bin/kc.sh"
         - "start"
         - "--http-port=8080"
+        - "--hostname-strict=false"
       database:
         vendor: postgres
         hostname: postgres-cluster
         port: 5432
         database: keycloak
-        username: keycloak
+        username: hopps-dev.keycloak
         existingSecret: hopps-dev.keycloak.postgres-cluster.credentials.postgresql.acid.zalan.do
       ingress:
         enabled: true
