@@ -138,6 +138,7 @@ spec:
             hosts:
               - ${DOMAIN_2}
     kafka:
+      enabled: true
       controller:
         replicaCount: 1
         resourcesPreset: "none"
