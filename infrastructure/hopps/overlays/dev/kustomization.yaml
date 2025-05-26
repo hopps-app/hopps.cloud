@@ -5,6 +5,7 @@ resources:
   - ../../base/hopps
   - namespace.yaml
   - postgresql.yaml
+  - cnpg-cluster.yaml
 # patch files matching the environment
 patches:
   - path: helm-release.yaml
@@ -37,3 +38,16 @@ secretGenerator:
   - name: kafka-ui-auth
     envs:
       - secrets/kafka-ui-secret-encrypted.env
+  # database credentials
+  - name: fin-db-secret
+    envs:
+      - secrets/db/fin-db-secret-encrypted.env
+  - name: org-db-secret
+    envs:
+      - secrets/db/org-db-secret-encrypted.env
+  - name: keycloak-db-secret
+    envs:
+      - secrets/db/keycloak-db-secret-encrypted.env
+  - name: openfga-db-secret
+    envs:
+      - secrets/db/openfga-db-secret-encrypted.env
