@@ -198,7 +198,7 @@ spec:
         - "--hostname-strict=false"
       database:
         vendor: postgres
-        hostname: postgres-cluster
+        hostname: postgres-cluster-rw
         port: 5432
         database: keycloak
         username: keycloak
