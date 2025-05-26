@@ -4,8 +4,11 @@ namespace: hopps-dev
 resources:
   - ../../base/hopps
   - namespace.yaml
+  # ToDo: remove postgresql when everything is running
   - postgresql.yaml
+  # create database
   - cnpg-cluster.yaml
+  - database.yaml
 # patch files matching the environment
 patches:
   - path: helm-release.yaml
