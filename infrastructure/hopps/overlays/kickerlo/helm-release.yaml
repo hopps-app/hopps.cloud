@@ -53,14 +53,14 @@ spec:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         ingressClassName: nginx
         hosts:
-          - host: api.${DOMAIN_2}
+          - host: api.kickerlo.${DOMAIN_2}
             paths:
               - path: /org(/|$)(.*)
                 pathType: ImplementationSpecific
         tls:
           - secretName: api-tls
             hosts:
-              - api.${DOMAIN_2}
+              - api.kickerlo.${DOMAIN_2}
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
@@ -98,14 +98,14 @@ spec:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         ingressClassName: nginx
         hosts:
-          - host: api.${DOMAIN_2}
+          - host: api.kickerlo.${DOMAIN_2}
             paths:
               - path: /fin(/|$)(.*)
                 pathType: ImplementationSpecific
         tls:
           - secretName: api-tls
             hosts:
-              - api.${DOMAIN_2}
+              - api.kickerlo.${DOMAIN_2}
     postgresql-fin:
       enabled: false
     # finNarrator
@@ -121,7 +121,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: 364
+        tag: 363
       envFrom:
         - secretRef:
             name: frontend
@@ -133,14 +133,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         ingressClassName: nginx
         hosts:
-          - host: ${DOMAIN_2}
+          - host: kickerlo.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - secretName: frontend-tls
             hosts:
-              - ${DOMAIN_2}
+              - kickerlo.${DOMAIN_2}
     zugferd:
       image:
         tag: 614
@@ -185,14 +185,14 @@ spec:
         tls:
           enabled: true
           secretName: kafka-tls
-        host: kafka-ui.${DOMAIN_2}
-    # use already available keycloak
+        host: kafka-ui.kickerlo.${DOMAIN_2}
+    # reuse dev keycloak for now
     keycloak:
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
       tag: 18-keycloak-26.2.1
-      enabled: true
+      enabled: false
       database:
         vendor: postgres
         hostname: postgres-cluster-rw
@@ -205,21 +205,20 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:5173"
           # disable public access to metrics endpoint
           nginx.ingress.kubernetes.io/server-snippet: |
             location ~* /auth/realms/[^/]+/metrics {
                 return 403;
             }
         rules:
-          - host: id.${DOMAIN_2}
+          - host: id.kickerlo.${DOMAIN_2}
             paths:
               - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
                 pathType: Prefix
         tls:
           - secretName: keycloak-tls
             hosts:
-              - id.${DOMAIN_2}
+              - id.kickerlo.${DOMAIN_2}
         ingressClassName: nginx
       serviceMonitor:
         enabled: true

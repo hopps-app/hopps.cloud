@@ -24,3 +24,17 @@ spec:
         migrationType: "initContainer"
       postgresql:
         enabled: false
+    keycloak:
+      command:
+        - "/opt/keycloak/bin/kc.sh"
+        - "start"
+        - "--http-port=8080"
+        - "--hostname-strict=false"
+      extraEnv: |
+        - name: JAVA_OPTS_APPEND
+          value: >-
+            -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+      # configure proxy through env variables
+      proxy:
+        enabled: true
+        mode: xforwarded
