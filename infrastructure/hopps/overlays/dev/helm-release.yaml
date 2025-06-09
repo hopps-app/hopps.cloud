@@ -15,14 +15,14 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: 607
+        tag: 614
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: 607
+        tag: 614
       envFrom:
         - secretRef:
             name: org
@@ -67,7 +67,7 @@ spec:
     # fin
     fin:
       image:
-        tag: 607
+        tag: 614
       envFrom:
         - secretRef:
             name: fin
@@ -111,7 +111,7 @@ spec:
     # finNarrator
     finNarrator:
       image:
-        tag: 607
+        tag: 614
       envVars:
         - name: quarkus.langchain4j.openai.api-key
           valueFrom:
