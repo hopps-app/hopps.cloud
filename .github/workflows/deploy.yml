@@ -9,7 +9,16 @@ on:
       service-name:
         description: 'name of the service to update'
         required: true
-        type: string
+        type: choice
+        options:
+          - org
+          - fin
+          - finNarrator
+          - frontend
+          - zugferd
+          - keycloak
+          - azDocumentAi
+
       environment:
         description: 'name of the affected environment'
         required: true
@@ -20,7 +29,10 @@ on:
           - liberlo
 jobs:
   update-tag:
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
       - name: Update app version
         uses: mikefarah/yq@v4.45.4
         with:
