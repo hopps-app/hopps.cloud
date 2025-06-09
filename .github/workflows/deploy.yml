@@ -1,0 +1,32 @@
+name: deploy
+on:
+  workflow_dispatch:
+    inputs:
+      new-tag:
+        description: 'new image tag to deploy'
+        required: true
+        type: string
+      service-name:
+        description: 'name of the service to update'
+        required: true
+        type: string
+      environment:
+        description: 'name of the affected environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - kickerlo
+          - liberlo
+jobs:
+  update-tag:
+    steps:
+      - name: Update app version
+        uses: mikefarah/yq@v4.45.4
+        with:
+          cmd: |
+            yq e -i 'select(.spec.values.${{ inputs.service-name }}.image.tag = "${{ inputs.new-tag }}")' infrastructure/hopps/overlays/${{ inputs.environment }}/helm-release.yaml
+      - uses: stefanzweifel/git-auto-commit-action@v5.2.0
+        with:
+          commit_message: "🚀 deploy ${{ inputs.environment }}/${{ inputs.service-name }} to ${{ inputs.new-tag }}"
+    runs-on: ubuntu-latest
