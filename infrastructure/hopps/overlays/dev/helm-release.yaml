@@ -141,6 +141,9 @@ spec:
           - secretName: frontend-tls
             hosts:
               - ${DOMAIN_2}
+    zugferd:
+      image:
+        tag: 614
     kafka:
       enabled: true
       controller:
