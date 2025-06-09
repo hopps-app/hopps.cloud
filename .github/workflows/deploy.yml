@@ -46,6 +46,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest changes with rebase
+        run: git pull --rebase origin main
+
       - name: Update app version
         uses: mikefarah/yq@v4.45.4
         with:
