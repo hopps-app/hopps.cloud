@@ -49,18 +49,18 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://${DOMAIN_2}, http://localhost:5173"
+          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         ingressClassName: nginx
         hosts:
-          - host: api.liberlo.${DOMAIN_2}
+          - host: api.demo.${DOMAIN_2}
             paths:
               - path: /org(/|$)(.*)
                 pathType: ImplementationSpecific
         tls:
           - secretName: api-tls
             hosts:
-              - api.liberlo.${DOMAIN_2}
+              - api.demo.${DOMAIN_2}
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
@@ -94,18 +94,18 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://${DOMAIN_2}, http://localhost:5173"
+          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         ingressClassName: nginx
         hosts:
-          - host: api.liberlo.${DOMAIN_2}
+          - host: api.demo.${DOMAIN_2}
             paths:
               - path: /fin(/|$)(.*)
                 pathType: ImplementationSpecific
         tls:
           - secretName: api-tls
             hosts:
-              - api.liberlo.${DOMAIN_2}
+              - api.demo.${DOMAIN_2}
     postgresql-fin:
       enabled: false
     # finNarrator
@@ -133,14 +133,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         ingressClassName: nginx
         hosts:
-          - host: liberlo.${DOMAIN_2}
+          - host: demo.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - secretName: frontend-tls
             hosts:
-              - liberlo.${DOMAIN_2}
+              - demo.${DOMAIN_2}
     zugferd:
       image:
         tag: 614
@@ -185,7 +185,7 @@ spec:
         tls:
           enabled: true
           secretName: kafka-tls
-        host: kafka-ui.liberlo.${DOMAIN_2}
+        host: kafka-ui.demo.${DOMAIN_2}
     # reuse dev keycloak for now
     keycloak:
       http:
@@ -211,14 +211,14 @@ spec:
                 return 403;
             }
         rules:
-          - host: id.liberlo.${DOMAIN_2}
+          - host: id.demo.${DOMAIN_2}
             paths:
               - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
                 pathType: Prefix
         tls:
           - secretName: keycloak-tls
             hosts:
-              - id.liberlo.${DOMAIN_2}
+              - id.demo.${DOMAIN_2}
         ingressClassName: nginx
       serviceMonitor:
         enabled: true

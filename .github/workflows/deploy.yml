@@ -24,8 +24,8 @@ on:
         type: choice
         options:
           - dev
-          - kickerlo
-          - liberlo
+          - demo
+          - prod
   workflow_call:
     inputs:
       new-tag:
