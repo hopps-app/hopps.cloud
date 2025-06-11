@@ -205,6 +205,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
           # disable public access to metrics endpoint
           nginx.ingress.kubernetes.io/server-snippet: |
             location ~* /auth/realms/[^/]+/metrics {
