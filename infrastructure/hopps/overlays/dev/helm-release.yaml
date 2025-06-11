@@ -67,7 +67,7 @@ spec:
     # fin
     fin:
       image:
-        tag: "621"
+        tag: "622"
       envFrom:
         - secretRef:
             name: fin
