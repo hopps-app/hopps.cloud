@@ -192,7 +192,7 @@ spec:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
       tag: 18-keycloak-26.2.1
-      enabled: false
+      enabled: true
       database:
         vendor: postgres
         hostname: postgres-cluster-rw
