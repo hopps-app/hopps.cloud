@@ -16,13 +16,6 @@ spec:
   # ToDo: configure backup
   managed:
     roles:
-      # fin
-      - name: fin
-        login: true
-        comment: user for fin service
-        disablePassword: false
-        passwordSecret:
-          name: fin-db-secret
       # org
       - name: org
         login: true

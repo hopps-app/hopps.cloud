@@ -16,9 +16,6 @@ patches:
 generatorOptions:
   disableNameSuffixHash: true
 secretGenerator:
-  - name: fin
-    envs:
-      - secrets/fin-secret-encrypted.env
   - name: org
     envs:
       - secrets/org-secret-encrypted.env
@@ -42,9 +39,6 @@ secretGenerator:
     envs:
       - secrets/kafka-ui-secret-encrypted.env
   # database credentials
-  - name: fin-db-secret
-    envs:
-      - secrets/db/fin-db-secret-encrypted.env
   - name: org-db-secret
     envs:
       - secrets/db/org-db-secret-encrypted.env

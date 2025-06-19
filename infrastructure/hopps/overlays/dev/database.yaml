@@ -33,15 +33,3 @@ spec:
   cluster:
     name: postgres-cluster
   encoding: UTF8
----
-# fin
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: fin
-spec:
-  name: fin
-  owner: fin
-  cluster:
-    name: postgres-cluster
-  encoding: UTF8
