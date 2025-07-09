@@ -5,7 +5,7 @@ resources:
   - ../../base/hopps
   - namespace.yaml
   # ToDo: remove postgresql when everything is running
-  - postgresql.yaml
+  #- postgresql.yaml
   # create database
   - cnpg-cluster.yaml
   - database.yaml
