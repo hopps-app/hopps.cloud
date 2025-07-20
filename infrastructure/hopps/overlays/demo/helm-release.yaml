@@ -64,50 +64,6 @@ spec:
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
-    # fin
-    fin:
-      image:
-        tag: 614
-      envFrom:
-        - secretRef:
-            name: fin
-      envVars:
-        # OpenFGA
-        # ToDo: automatically set store name, when integrated openfga enabled
-        - name: QUARKUS_OPENFGA_STORE
-          value: hopps
-        # Database secrets
-        - name: quarkus.datasource.jdbc.url
-          value: jdbc:postgresql://postgres-cluster-rw:5432/fin?loggerLevel=OFF&sslmode=require
-        - name: quarkus.datasource.username
-          valueFrom:
-            secretKeyRef:
-              name: fin-db-secret
-              key: username
-        - name: quarkus.datasource.password
-          valueFrom:
-            secretKeyRef:
-              name: fin-db-secret
-              key: password
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
-          nginx.ingress.kubernetes.io/rewrite-target: /$2
-        ingressClassName: nginx
-        hosts:
-          - host: api.demo.${DOMAIN_2}
-            paths:
-              - path: /fin(/|$)(.*)
-                pathType: ImplementationSpecific
-        tls:
-          - secretName: api-tls
-            hosts:
-              - api.demo.${DOMAIN_2}
-    postgresql-fin:
-      enabled: false
     # finNarrator
     finNarrator:
       image:
