@@ -34,6 +34,14 @@ spec:
         # Database secrets
         - name: quarkus.datasource.jdbc.url
           value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
+        - name: quarkus.swagger-ui.always-include
+          value: "true"
+        - name: quarkus.swagger-ui.enable
+          value: "true"
+        - name: quarkus.swagger-ui.path
+          value: /q/swagger-ui
+        - name: quarkus.smallrye-openapi.path
+          value: /q/openapi
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:
@@ -57,6 +65,10 @@ spec:
             paths:
               - path: /org(/|$)(.*)
                 pathType: ImplementationSpecific
+              - path: /org/q/swagger-ui
+                pathType: Prefix
+              - path: /org/q/openapi
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
