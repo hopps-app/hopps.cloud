@@ -76,6 +76,16 @@ spec:
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
+    # finNarrator
+    finNarrator:
+      image:
+        tag: 614
+      envVars:
+        - name: quarkus.langchain4j.openai.api-key
+          valueFrom:
+            secretKeyRef:
+              name: openai-api-key
+              key: apikey
     # frontend
     frontend:
       image:
