@@ -107,7 +107,7 @@ spec:
               - dev.${DOMAIN_2}
     zugferd:
       image:
-        tag: "647"
+        tag: "649"
     kafka:
       enabled: true
       controller:
