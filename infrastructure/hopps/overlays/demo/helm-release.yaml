@@ -65,10 +65,6 @@ spec:
             paths:
               - path: /org(/|$)(.*)
                 pathType: ImplementationSpecific
-              - path: /org/q/swagger-ui
-                pathType: Prefix
-              - path: /org/q/openapi
-                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
