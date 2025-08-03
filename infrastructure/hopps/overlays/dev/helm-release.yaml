@@ -75,7 +75,7 @@ spec:
     # finNarrator
     finNarrator:
       image:
-        tag: "649"
+        tag: "657"
       envVars:
         - name: quarkus.langchain4j.openai.api-key
           valueFrom:
