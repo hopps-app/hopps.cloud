@@ -79,7 +79,7 @@ spec:
               return 302 /q/swagger-ui;
             }
         hosts:
-          - host: swagger.${DOMAIN_2}
+          - host: swagger.dev.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Exact
@@ -90,7 +90,7 @@ spec:
         tls:
           - secretName: swagger-tls
             hosts:
-              - swagger.${DOMAIN_2}
+              - swagger.dev.${DOMAIN_2}
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
