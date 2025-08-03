@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.11
+      version: 0.1.12
   interval: 1m0s
   values:
     # az-document-ai
@@ -69,6 +69,28 @@ spec:
           - secretName: api-tls
             hosts:
               - api.dev.${DOMAIN_2}
+      managementIngress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location = / {
+              return 302 /q/swagger-ui;
+            }
+        hosts:
+          - host: swagger.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Exact
+              - path: /q/swagger-ui
+                pathType: Prefix
+              - path: /q/openapi
+                pathType: Prefix
+        tls:
+          - secretName: swagger-tls
+            hosts:
+              - swagger.${DOMAIN_2}
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
