@@ -74,7 +74,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/server-snippet: |
-            location = / {
+            location = /swagger {
               return 302 /q/swagger-ui;
             }
         hosts:
