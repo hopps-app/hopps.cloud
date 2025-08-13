@@ -85,9 +85,9 @@ spec:
               - path: /q/openapi
                 pathType: Prefix
         tls:
-          - secretName: swagger-tls
+          - secretName: api-tls
             hosts:
-              - swagger.dev.${DOMAIN_2}
+              - api.dev.${DOMAIN_2}
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
