@@ -15,7 +15,7 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: "678"
+        tag: "681"
       envFrom:
         - secretRef:
             name: az-document-ai
