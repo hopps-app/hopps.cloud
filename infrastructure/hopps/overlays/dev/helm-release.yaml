@@ -42,8 +42,6 @@ spec:
           value: /q/swagger-ui
         - name: quarkus.smallrye-openapi.path
           value: /q/openapi
-        - name: quarkus.rest-client.zugferd-service.url
-          value: "http://hopps-zugferd"
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:
