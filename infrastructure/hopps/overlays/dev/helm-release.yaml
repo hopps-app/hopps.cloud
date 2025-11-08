@@ -131,6 +131,7 @@ spec:
         tag: "686"
     kafka:
       enabled: true
+      clusterId: wxe-2OXZRbuqQZjGf3cVUA
       controller:
         replicaCount: 1
         resourcesPreset: "none"
