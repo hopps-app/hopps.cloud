@@ -126,7 +126,7 @@ spec:
               - dev.${DOMAIN_2}
     zugferd:
       image:
-        tag: "709"
+        tag: "713"
     kafka:
       enabled: true
       clusterId: wxe-2OXZRbuqQZjGf3cVUA
