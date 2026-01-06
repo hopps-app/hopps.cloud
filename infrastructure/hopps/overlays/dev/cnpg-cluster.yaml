@@ -16,13 +16,13 @@ spec:
   # ToDo: configure backup
   managed:
     roles:
-      # org
-      - name: org
+      # hopps-app
+      - name: hopps-app
         login: true
-        comment: user for org service
+        comment: user for hopps-app service
         disablePassword: false
         passwordSecret:
-          name: org-db-secret
+          name: hopps-app-db-secret
       # keycloak
       - name: keycloak
         login: true
