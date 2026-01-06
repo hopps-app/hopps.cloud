@@ -10,38 +10,14 @@ spec:
     name: postgres-cluster
   encoding: UTF8
 ---
-# openfga
+# hopps-app
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: openfga
+  name: hopps-app
 spec:
-  name: openfga
-  owner: openfga
-  cluster:
-    name: postgres-cluster
-  encoding: UTF8
----
-# org
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: org
-spec:
-  name: org
-  owner: org
-  cluster:
-    name: postgres-cluster
-  encoding: UTF8
----
-# fin
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: fin
-spec:
-  name: fin
-  owner: fin
+  name: hopps-app
+  owner: hopps-app
   cluster:
     name: postgres-cluster
   encoding: UTF8
