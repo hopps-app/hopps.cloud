@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 2.0.2
+      version: 2.0.3
   interval: 1m0s
   values:
     # az-document-ai
@@ -22,7 +22,6 @@ spec:
     # hopps-app (merged org + frontend)
     hoppsApp:
       image:
-        repository: ghcr.io/hopps-app/hopps/hopps-app
         tag: "latest"
       envFrom:
         - secretRef:
