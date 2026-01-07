@@ -30,14 +30,8 @@ spec:
         # Database secrets
         - name: quarkus.datasource.jdbc.url
           value: jdbc:postgresql://postgres-cluster-rw:5432/hopps-app?loggerLevel=OFF&sslmode=require
-        - name: quarkus.swagger-ui.always-include
-          value: "true"
-        - name: quarkus.swagger-ui.enable
-          value: "true"
-        - name: quarkus.swagger-ui.path
-          value: /q/swagger-ui
-        - name: quarkus.smallrye-openapi.path
-          value: /q/openapi
+        - name: quarkus.oidc.authentication.force-redirect-https-scheme
+          value: 'true'
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:
@@ -71,14 +65,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/server-snippet: |
             location = /swagger {
-              return 302 /q/swagger-ui;
+              return 302 /swagger-ui;
             }
         hosts:
           - host: api.dev.${DOMAIN_2}
             paths:
-              - path: /q/swagger-ui
+              - path: /swagger-ui
                 pathType: Prefix
-              - path: /q/openapi
+              - path: /openapi
                 pathType: Prefix
         tls:
           - secretName: api-tls
