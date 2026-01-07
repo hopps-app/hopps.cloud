@@ -11,10 +11,7 @@ on:
         required: true
         type: choice
         options:
-          - org
-          - fin
-          - finNarrator
-          - frontend
+          - hoppsApp
           - zugferd
           - keycloak
           - azDocumentAi
