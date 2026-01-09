@@ -86,7 +86,7 @@ spec:
       enabled: false
     zugferd:
       image:
-        tag: "17"
+        tag: "18"
     # use already available keycloak
     keycloak:
       http:
