@@ -22,7 +22,7 @@ spec:
     # hopps-app (merged org + frontend)
     hoppsApp:
       image:
-        tag: "73"
+        tag: "74"
       bootstrap:
         enabled: true
       envFrom:
