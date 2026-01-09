@@ -68,14 +68,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/server-snippet: |
             location = /swagger {
-              return 302 /swagger-ui;
+              return 302 /q/swagger-ui;
             }
         hosts:
           - host: api.dev.${DOMAIN_2}
             paths:
-              - path: /swagger-ui
+              - path: /q/swagger-ui
                 pathType: Prefix
-              - path: /openapi
+              - path: /q/openapi
                 pathType: Prefix
         tls:
           - secretName: api-tls
