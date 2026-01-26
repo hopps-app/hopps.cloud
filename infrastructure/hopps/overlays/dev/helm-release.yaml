@@ -27,6 +27,8 @@ spec:
         - secretRef:
             name: org
       envVars:
+        - name: BUCKET_NAME
+          value: hopps-dev-fin
         # Database secrets
         - name: quarkus.datasource.jdbc.url
           value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
