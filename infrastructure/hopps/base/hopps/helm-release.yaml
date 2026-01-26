@@ -9,21 +9,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.8
+      version: 0.2.1
   interval: 1m0s
   values:
-    openfgaEnabled: true
-    openfga:
-      # only run one pod for now
-      replicaCount: 1
-      # use postgresql-database
-      datastore:
-        engine: postgres
-        uriSecret: openfga
-        # https://github.com/openfga/helm-charts/issues/100
-        migrationType: "initContainer"
-      postgresql:
-        enabled: false
     keycloak:
       command:
         - "/opt/keycloak/bin/kc.sh"
