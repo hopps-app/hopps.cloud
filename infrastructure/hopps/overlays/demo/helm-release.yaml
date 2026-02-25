@@ -9,39 +9,31 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.6
+      version: 0.2.3
   interval: 1m0s
   values:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: 614
+        tag: "817"
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: 614
+        tag: "817"
       envFrom:
         - secretRef:
             name: org
       envVars:
-        # OpenFGA
-        # ToDo: automatically set store name, when integrated openfga enabled
-        - name: QUARKUS_OPENFGA_STORE
-          value: hopps
-        - name: quarkus.swagger-ui.always-include
-          value: "true"
-        - name: quarkus.swagger-ui.enable
-          value: "true"
+        # Database secrets
+        - name: quarkus.datasource.jdbc.url
+          value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
         - name: quarkus.swagger-ui.path
           value: /q/swagger-ui
         - name: quarkus.smallrye-openapi.path
           value: /q/openapi
-        # Database secrets
-        - name: quarkus.datasource.jdbc.url
-          value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:
@@ -58,13 +50,33 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
           nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
-          nginx.ingress.kubernetes.io/rewrite-target: /$2
+          nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
         ingressClassName: nginx
         hosts:
           - host: api.demo.${DOMAIN_2}
             paths:
-              - path: /org(/|$)(.*)
+              - path: /
                 pathType: ImplementationSpecific
+        tls:
+          - secretName: api-tls
+            hosts:
+              - api.demo.${DOMAIN_2}
+      managementIngress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          nginx.ingress.kubernetes.io/server-snippet: |
+            location = /swagger {
+              return 302 /q/swagger-ui;
+            }
+        hosts:
+          - host: api.demo.${DOMAIN_2}
+            paths:
+              - path: /q/swagger-ui
+                pathType: Prefix
+              - path: /q/openapi
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
@@ -72,20 +84,10 @@ spec:
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
-    # finNarrator
-    finNarrator:
-      image:
-        tag: 614
-      envVars:
-        - name: quarkus.langchain4j.openai.api-key
-          valueFrom:
-            secretKeyRef:
-              name: openai-api-key
-              key: apikey
     # frontend
     frontend:
       image:
-        tag: "368"
+        tag: "825"
       envFrom:
         - secretRef:
             name: frontend
@@ -107,83 +109,10 @@ spec:
               - demo.${DOMAIN_2}
     zugferd:
       image:
-        tag: 614
-    kafka:
-      enabled: true
-      controller:
-        replicaCount: 1
-        resourcesPreset: "none"
-      volumePermissions:
-        resourcesPreset: "none"
-      # disable authentication for kafka for now
-      listeners:
-        client:
-          protocol: PLAINTEXT
-    kafka-ui:
-      enabled: true
-      yamlApplicationConfig:
-        kafka:
-          clusters:
-            - name: yaml
-              # ToDo: url should automatically be calculated, dependent on the name of the release-name
-              bootstrapServers: hopps-kafka:9092
-        auth:
-          type: disabled
-        management:
-          health:
-            ldap:
-              enabled: false
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          # basic auth
-          nginx.ingress.kubernetes.io/auth-type: basic
-          nginx.ingress.kubernetes.io/auth-secret: kafka-ui-auth
-          nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Kafka'
-          # configure oauth2-proxy security ToDo: waiting for keycloak GitHub integration for SSO
-          #nginx.ingress.kubernetes.io/auth-response-headers: x-auth-request-user, x-auth-request-email
-          #nginx.ingress.kubernetes.io/auth-signin: https://${OAUTH_PROXY_DOMAIN}/oauth2/start?rd=$scheme://$host$request_uri
-          #nginx.ingress.kubernetes.io/auth-url: https://${OAUTH_PROXY_DOMAIN}/oauth2/auth
-        tls:
-          enabled: true
-          secretName: kafka-tls
-        host: kafka-ui.demo.${DOMAIN_2}
-    # reuse dev keycloak for now
+        tag: "817"
+      envFrom:
+        - secretRef:
+            name: zugferd
+    # use already available keycloak
     keycloak:
-      http:
-        # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
-        relativePath: "/"
-      tag: 18-keycloak-26.2.1
       enabled: false
-      database:
-        vendor: postgres
-        hostname: postgres-cluster-rw
-        port: 5432
-        database: keycloak
-        username: keycloak
-        existingSecret: keycloak-db-secret
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
-          # disable public access to metrics endpoint
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~* /auth/realms/[^/]+/metrics {
-                return 403;
-            }
-        rules:
-          - host: id.demo.${DOMAIN_2}
-            paths:
-              - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
-                pathType: Prefix
-        tls:
-          - secretName: keycloak-tls
-            hosts:
-              - id.demo.${DOMAIN_2}
-        ingressClassName: nginx
-      serviceMonitor:
-        enabled: true
