@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(findstr:*)",
+      "Bash(cat:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(kubectl config:*)",
+      "Bash(kubectl cluster-info:*)",
+      "Bash(kubectl --kubeconfig ~/.kube/captain-kube.config apply -k infrastructure/hopps/overlays/dev)",
+      "Bash(kubectl:*)",
+      "Bash(sops --version:*)",
+      "Bash(sops -d:*)",
+      "Bash(jq:*)",
+      "Bash(flux reconcile source git:*)"
+    ]
+  }
+}

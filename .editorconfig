@@ -1,0 +1,4 @@
+root = true
+
+[*-encrypted.env]
+end_of_line = lf

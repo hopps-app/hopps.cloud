@@ -1,0 +1,3 @@
+# Force LF line endings for SOPS encrypted dotenv files
+# Prevents CRLF issues that break SOPS parsing
+*-encrypted.env text eol=lf
