@@ -15,6 +15,7 @@ on:
           - zugferd
           - keycloak
           - azDocumentAi
+          - frontend
       environment:
         description: 'name of the affected environment'
         required: true
