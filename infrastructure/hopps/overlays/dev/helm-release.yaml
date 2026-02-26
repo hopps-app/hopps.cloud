@@ -87,7 +87,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "825"
+        tag: "838"
       envFrom:
         - secretRef:
             name: frontend
