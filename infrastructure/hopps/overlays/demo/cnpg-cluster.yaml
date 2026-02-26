@@ -16,13 +16,6 @@ spec:
   # ToDo: configure backup
   managed:
     roles:
-      # fin
-      - name: fin
-        login: true
-        comment: user for fin service
-        disablePassword: false
-        passwordSecret:
-          name: fin-db-secret
       # org
       - name: org
         login: true
@@ -30,17 +23,3 @@ spec:
         disablePassword: false
         passwordSecret:
           name: org-db-secret
-      # openfga
-      - name: openfga
-        login: true
-        comment: user for openfga service
-        disablePassword: false
-        passwordSecret:
-          name: openfga-db-secret
-      # keycloak
-      - name: keycloak
-        login: true
-        comment: user for keycloak service
-        disablePassword: false
-        passwordSecret:
-          name: keycloak-db-secret
