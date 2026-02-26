@@ -32,3 +32,6 @@ secretGenerator:
   - name: org-db-secret
     envs:
       - secrets/db/org-db-secret-encrypted.env
+  - name: zugferd
+    envs:
+      - secrets/zugferd-secret-encrypted.env
