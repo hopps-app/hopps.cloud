@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.3
+      version: 0.2.4
   interval: 1m0s
   values:
     # az-document-ai
@@ -150,3 +150,21 @@ spec:
         ingressClassName: nginx
       serviceMonitor:
         enabled: true
+    # mail-dev (GreenMail + Roundcube)
+    mailDev:
+      enabled: true
+      roundcube:
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          ingressClassName: nginx
+          hosts:
+            - host: mail.dev.${DOMAIN_2}
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: mail-dev-tls
+              hosts:
+                - mail.dev.${DOMAIN_2}

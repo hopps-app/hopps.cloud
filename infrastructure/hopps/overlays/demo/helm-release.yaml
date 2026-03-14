@@ -155,7 +155,8 @@ spec:
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
-      tag: 18-keycloak-26.2.1
+      image:
+        tag: 18-keycloak-26.2.1
       enabled: false
       database:
         vendor: postgres
