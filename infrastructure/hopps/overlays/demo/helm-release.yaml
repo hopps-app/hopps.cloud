@@ -15,14 +15,14 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: "840"
+        tag: "841"
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: "838"
+        tag: "841"
       envFrom:
         - secretRef:
             name: org
@@ -77,7 +77,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "896"
+        tag: "897"
       envFrom:
         - secretRef:
             name: frontend
