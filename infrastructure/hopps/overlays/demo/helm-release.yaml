@@ -9,20 +9,20 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.6
+      version: 0.2.5
   interval: 1m0s
   values:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: 614
+        tag: "840"
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: 614
+        tag: "838"
       envFrom:
         - secretRef:
             name: org
@@ -85,7 +85,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "368"
+        tag: "896"
       envFrom:
         - secretRef:
             name: frontend
@@ -107,7 +107,7 @@ spec:
               - demo.${DOMAIN_2}
     zugferd:
       image:
-        tag: 614
+        tag: "838"
     kafka:
       enabled: true
       controller:
