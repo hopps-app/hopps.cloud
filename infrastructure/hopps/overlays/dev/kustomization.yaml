@@ -6,6 +6,7 @@ resources:
   - namespace.yaml
   - cnpg-cluster.yaml
   - database.yaml
+
 # patch files matching the environment
 patches:
   - path: helm-release.yaml
