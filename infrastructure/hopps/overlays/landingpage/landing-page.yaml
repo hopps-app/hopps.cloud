@@ -39,14 +39,15 @@ spec:
   ingressClassName: nginx
   rules:
     - host: hopps.app
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: landing-page
-              port:
-                number: 80
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: landing-page
+                port:
+                  number: 80
   tls:
     - secretName: landing-page-tls
       hosts:
