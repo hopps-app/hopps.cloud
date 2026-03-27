@@ -119,7 +119,7 @@ spec:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
       image:
-        tag: 114-keycloak-26.2.1
+        tag: 115-keycloak-26.2.1
       enabled: true
       database:
         vendor: postgres
