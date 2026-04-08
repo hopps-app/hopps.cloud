@@ -1,0 +1,36 @@
+name: deploy-landing-page
+on:
+  workflow_dispatch:
+    inputs:
+      new-tag:
+        description: 'new image tag to deploy'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      new-tag:
+        description: 'new image tag to deploy'
+        required: true
+        type: string
+jobs:
+  update-tag:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest changes with rebase
+        run: git pull --rebase origin main
+
+      - name: Update landing-page version
+        uses: mikefarah/yq@v4.45.4
+        with:
+          cmd: |
+            yq e -i 'select(di == 0).spec.template.spec.containers[0].image = "ghcr.io/hopps-app/landing-page:${{ inputs.new-tag }}"' infrastructure/hopps/overlays/landingpage/landing-page.yaml
+
+      - uses: stefanzweifel/git-auto-commit-action@v5.2.0
+        with:
+          commit_message: "🚀 deploy landing-page to ${{ inputs.new-tag }}"
