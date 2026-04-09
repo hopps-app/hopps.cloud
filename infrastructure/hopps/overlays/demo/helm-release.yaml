@@ -58,6 +58,7 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           nginx.ingress.kubernetes.io/enable-cors: "true"
           nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
+          nginx.ingress.kubernetes.io/proxy-body-size: "50m"
           nginx.ingress.kubernetes.io/rewrite-target: /$2
         ingressClassName: nginx
         hosts:
