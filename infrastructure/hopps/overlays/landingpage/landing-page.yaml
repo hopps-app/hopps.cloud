@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: landing-page
-          image: ghcr.io/hopps-app/landing-page:v2
+          image: ghcr.io/hopps-app/landing-page:v8
           ports:
             - containerPort: 3000
 ---
