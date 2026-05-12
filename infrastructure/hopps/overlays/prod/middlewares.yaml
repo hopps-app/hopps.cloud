@@ -1,0 +1,52 @@
+# CORS for API/Keycloak from the prod frontend origin
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: cors
+spec:
+  headers:
+    accessControlAllowMethods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
+    accessControlAllowHeaders:
+      - "*"
+    accessControlAllowOriginList:
+      - "https://${DOMAIN_2}"
+    accessControlMaxAge: 100
+    addVaryHeader: true
+---
+# Strip /org prefix before forwarding to the org backend
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-org
+spec:
+  stripPrefix:
+    prefixes:
+      - /org
+---
+# Strip /fin prefix before forwarding to the fin backend
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-fin
+spec:
+  stripPrefix:
+    prefixes:
+      - /fin
+---
+# Basic auth for kafka-ui
+# NOTE: the referenced secret must have a `users` data key holding htpasswd content.
+# The existing kafka-ui-auth env-secret needs to provide that key (rename `auth` -> `users` if needed).
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: kafka-ui-auth
+spec:
+  basicAuth:
+    secret: kafka-ui-auth
+    realm: "Authentication Required - Kafka"

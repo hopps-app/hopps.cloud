@@ -56,16 +56,13 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
-          nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-          nginx.ingress.kubernetes.io/rewrite-target: /$2
-        ingressClassName: nginx
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-demo-cors@kubernetescrd,hopps-demo-strip-org@kubernetescrd,hopps-demo-body-50m@kubernetescrd
+        ingressClassName: traefik
         hosts:
           - host: api.demo.${DOMAIN_2}
             paths:
-              - path: /org(/|$)(.*)
-                pathType: ImplementationSpecific
+              - path: /org
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
@@ -88,7 +85,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-        ingressClassName: nginx
+        ingressClassName: traefik
         hosts:
           - host: demo.${DOMAIN_2}
             paths:
@@ -119,13 +116,9 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://demo.${DOMAIN_2}"
-          # disable public access to metrics endpoint
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~* /auth/realms/[^/]+/metrics {
-                return 403;
-            }
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-demo-cors@kubernetescrd
+          # ToDo: re-implement public /metrics block (server-snippet replacement) — either via
+          # Keycloak/Quarkus management interface or a dedicated traefik IngressRoute that 403s the path
         rules:
           - host: id.demo.${DOMAIN_2}
             paths:
@@ -135,6 +128,6 @@ spec:
           - secretName: keycloak-tls
             hosts:
               - id.demo.${DOMAIN_2}
-        ingressClassName: nginx
+        ingressClassName: traefik
       serviceMonitor:
         enabled: true

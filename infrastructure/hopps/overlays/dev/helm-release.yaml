@@ -48,27 +48,24 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://dev.${DOMAIN_2}, http://localhost:5173"
-        ingressClassName: nginx
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-dev-cors-api@kubernetescrd
+        ingressClassName: traefik
         hosts:
           - host: api.dev.${DOMAIN_2}
             paths:
               - path: /
-                pathType: ImplementationSpecific
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
               - api.dev.${DOMAIN_2}
       managementIngress:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: traefik
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location = /swagger {
-              return 302 /q/swagger-ui;
-            }
+          # redirect /swagger -> /q/swagger-ui (regex only matches /swagger, other paths pass through)
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-dev-swagger-redirect@kubernetescrd
         hosts:
           - host: api.dev.${DOMAIN_2}
             paths:
@@ -76,6 +73,8 @@ spec:
                 pathType: Prefix
               - path: /q/openapi
                 pathType: Prefix
+              - path: /swagger
+                pathType: Exact
         tls:
           - secretName: api-tls
             hosts:
@@ -97,7 +96,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-        ingressClassName: nginx
+        ingressClassName: traefik
         hosts:
           - host: dev.${DOMAIN_2}
             paths:
@@ -132,13 +131,9 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://dev.${DOMAIN_2}, https://demo.${DOMAIN_2}, http://localhost:5173"
-          # disable public access to metrics endpoint
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~* /auth/realms/[^/]+/metrics {
-                return 403;
-            }
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-dev-cors-keycloak@kubernetescrd
+          # ToDo: re-implement public /metrics block (server-snippet replacement) — either via
+          # Keycloak/Quarkus management interface or a dedicated traefik IngressRoute that 403s the path
         rules:
           - host: id.dev.${DOMAIN_2}
             paths:
@@ -148,7 +143,7 @@ spec:
           - secretName: keycloak-tls
             hosts:
               - id.dev.${DOMAIN_2}
-        ingressClassName: nginx
+        ingressClassName: traefik
       serviceMonitor:
         enabled: true
     # mail-dev (GreenMail + Roundcube)
@@ -159,7 +154,7 @@ spec:
           enabled: true
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt-prod
-          ingressClassName: nginx
+          ingressClassName: traefik
           hosts:
             - host: mail.dev.${DOMAIN_2}
               paths:

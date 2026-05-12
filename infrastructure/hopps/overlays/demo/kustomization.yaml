@@ -7,6 +7,8 @@ resources:
   # create database
   - cnpg-cluster.yaml
   - database.yaml
+  # traefik middlewares (CORS, stripPrefix, buffering)
+  - middlewares.yaml
 # patch files matching the environment
 patches:
   - path: helm-release.yaml

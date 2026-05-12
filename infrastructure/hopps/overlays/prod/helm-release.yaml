@@ -48,15 +48,13 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://${DOMAIN_2}"
-          nginx.ingress.kubernetes.io/rewrite-target: /$2
-        ingressClassName: nginx
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd,hopps-prod-strip-org@kubernetescrd
+        ingressClassName: traefik
         hosts:
           - host: api.${DOMAIN_2}
             paths:
-              - path: /org(/|$)(.*)
-                pathType: ImplementationSpecific
+              - path: /org
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
@@ -93,15 +91,13 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://${DOMAIN_2}"
-          nginx.ingress.kubernetes.io/rewrite-target: /$2
-        ingressClassName: nginx
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd,hopps-prod-strip-fin@kubernetescrd
+        ingressClassName: traefik
         hosts:
           - host: api.${DOMAIN_2}
             paths:
-              - path: /fin(/|$)(.*)
-                pathType: ImplementationSpecific
+              - path: /fin
+                pathType: Prefix
         tls:
           - secretName: api-tls
             hosts:
@@ -131,7 +127,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-        ingressClassName: nginx
+        ingressClassName: traefik
         hosts:
           - host: ${DOMAIN_2}
             paths:
@@ -171,17 +167,13 @@ spec:
               enabled: false
       ingress:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: traefik
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           # basic auth
-          nginx.ingress.kubernetes.io/auth-type: basic
-          nginx.ingress.kubernetes.io/auth-secret: kafka-ui-auth
-          nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Kafka'
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-kafka-ui-auth@kubernetescrd
           # configure oauth2-proxy security ToDo: waiting for keycloak GitHub integration for SSO
-          #nginx.ingress.kubernetes.io/auth-response-headers: x-auth-request-user, x-auth-request-email
-          #nginx.ingress.kubernetes.io/auth-signin: https://${OAUTH_PROXY_DOMAIN}/oauth2/start?rd=$scheme://$host$request_uri
-          #nginx.ingress.kubernetes.io/auth-url: https://${OAUTH_PROXY_DOMAIN}/oauth2/auth
+          # traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-kafka-ui-auth@kubernetescrd,traefik-oauth-forwardauth@kubernetescrd,traefik-oauth-forwardauth-service@kubernetescrd
         tls:
           enabled: true
           secretName: kafka-tls
@@ -205,13 +197,9 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          nginx.ingress.kubernetes.io/cors-allow-origin: "https://${DOMAIN_2}"
-          # disable public access to metrics endpoint
-          nginx.ingress.kubernetes.io/server-snippet: |
-            location ~* /auth/realms/[^/]+/metrics {
-                return 403;
-            }
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd
+          # ToDo: re-implement public /metrics block (server-snippet replacement) — either via
+          # Keycloak/Quarkus management interface or a dedicated traefik IngressRoute that 403s the path
         rules:
           - host: id.${DOMAIN_2}
             paths:
@@ -221,6 +209,6 @@ spec:
           - secretName: keycloak-tls
             hosts:
               - id.${DOMAIN_2}
-        ingressClassName: nginx
+        ingressClassName: traefik
       serviceMonitor:
         enabled: true
