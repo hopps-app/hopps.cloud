@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.1.4
+      version: 0.2.7
   interval: 1m0s
   values:
     # az-document-ai
@@ -27,13 +27,13 @@ spec:
         - secretRef:
             name: org
       envVars:
-        # OpenFGA
-        # ToDo: automatically set store name, when integrated openfga enabled
-        - name: QUARKUS_OPENFGA_STORE
-          value: hopps
         # Database secrets
         - name: quarkus.datasource.jdbc.url
           value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
+        - name: quarkus.swagger-ui.path
+          value: /q/swagger-ui
+        - name: quarkus.smallrye-openapi.path
+          value: /q/openapi
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:
@@ -48,7 +48,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd,hopps-prod-strip-org@kubernetescrd
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd,hopps-prod-strip-org@kubernetescrd,hopps-prod-body-50m@kubernetescrd
         ingressClassName: traefik
         hosts:
           - host: api.${DOMAIN_2}
@@ -59,61 +59,11 @@ spec:
           - secretName: api-tls
             hosts:
               - api.${DOMAIN_2}
+      managementIngress:
+        enabled: false
     # disable subchart for postgresql
     postgresql-org:
       enabled: false
-    # fin
-    fin:
-      image:
-        tag: 614
-      envFrom:
-        - secretRef:
-            name: fin
-      envVars:
-        # OpenFGA
-        # ToDo: automatically set store name, when integrated openfga enabled
-        - name: QUARKUS_OPENFGA_STORE
-          value: hopps
-        # Database secrets
-        - name: quarkus.datasource.jdbc.url
-          value: jdbc:postgresql://postgres-cluster-rw:5432/fin?loggerLevel=OFF&sslmode=require
-        - name: quarkus.datasource.username
-          valueFrom:
-            secretKeyRef:
-              name: fin-db-secret
-              key: username
-        - name: quarkus.datasource.password
-          valueFrom:
-            secretKeyRef:
-              name: fin-db-secret
-              key: password
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd,hopps-prod-strip-fin@kubernetescrd
-        ingressClassName: traefik
-        hosts:
-          - host: api.${DOMAIN_2}
-            paths:
-              - path: /fin
-                pathType: Prefix
-        tls:
-          - secretName: api-tls
-            hosts:
-              - api.${DOMAIN_2}
-    postgresql-fin:
-      enabled: false
-    # finNarrator
-    finNarrator:
-      image:
-        tag: 614
-      envVars:
-        - name: quarkus.langchain4j.openai.api-key
-          valueFrom:
-            secretKeyRef:
-              name: openai-api-key
-              key: apikey
     # frontend
     frontend:
       image:
@@ -140,51 +90,17 @@ spec:
     zugferd:
       image:
         tag: 614
-    kafka:
-      enabled: true
-      controller:
-        replicaCount: 1
-        resourcesPreset: "none"
-      volumePermissions:
-        resourcesPreset: "none"
-      # disable authentication for kafka for now
-      listeners:
-        client:
-          protocol: PLAINTEXT
-    kafka-ui:
-      enabled: true
-      yamlApplicationConfig:
-        kafka:
-          clusters:
-            - name: yaml
-              # ToDo: url should automatically be calculated, dependent on the name of the release-name
-              bootstrapServers: hopps-kafka:9092
-        auth:
-          type: disabled
-        management:
-          health:
-            ldap:
-              enabled: false
-      ingress:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          # basic auth
-          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-kafka-ui-auth@kubernetescrd
-          # configure oauth2-proxy security ToDo: waiting for keycloak GitHub integration for SSO
-          # traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-kafka-ui-auth@kubernetescrd,traefik-oauth-forwardauth@kubernetescrd,traefik-oauth-forwardauth-service@kubernetescrd
-        tls:
-          enabled: true
-          secretName: kafka-tls
-        host: kafka-ui.${DOMAIN_2}
-    # reuse dev keycloak for now
+      envFrom:
+        - secretRef:
+            name: zugferd
+    mailDev:
+      enabled: false
     keycloak:
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
       image:
-        tag: 18-keycloak-26.2.1
+        tag: 115-keycloak-26.2.1
       enabled: true
       database:
         vendor: postgres

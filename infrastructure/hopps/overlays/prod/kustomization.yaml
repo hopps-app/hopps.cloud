@@ -7,7 +7,7 @@ resources:
   # create database
   - cnpg-cluster.yaml
   - database.yaml
-  # traefik middlewares (CORS, stripPrefix, basicAuth)
+  # traefik middlewares (CORS, stripPrefix, buffering)
   - middlewares.yaml
 # patch files matching the environment
 patches:
@@ -16,9 +16,6 @@ patches:
 generatorOptions:
   disableNameSuffixHash: true
 secretGenerator:
-  - name: fin
-    envs:
-      - secrets/fin-secret-encrypted.env
   - name: org
     envs:
       - secrets/org-secret-encrypted.env
@@ -28,29 +25,16 @@ secretGenerator:
   - name: frontend
     envs:
       - secrets/frontend-secret-encrypted.env
-  - name: openfga
+  - name: zugferd
     envs:
-      - secrets/openfga-secret-encrypted.env
+      - secrets/zugferd-secret-encrypted.env
   - name: postgres-operator-secret
     envs:
       - secrets/postgres-cluster-secret-encrypted.env
-  - name: openai-api-key
-    envs:
-      - secrets/openai-api-key-encrypted.env
-  # basic auth for kafka-ui
-  - name: kafka-ui-auth
-    envs:
-      - secrets/kafka-ui-secret-encrypted.env
   # database credentials
-  - name: fin-db-secret
-    envs:
-      - secrets/db/fin-db-secret-encrypted.env
   - name: org-db-secret
     envs:
       - secrets/db/org-db-secret-encrypted.env
   - name: keycloak-db-secret
     envs:
       - secrets/db/keycloak-db-secret-encrypted.env
-  - name: openfga-db-secret
-    envs:
-      - secrets/db/openfga-db-secret-encrypted.env
