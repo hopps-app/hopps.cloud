@@ -9,20 +9,5 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.4
+      version: 0.2.7
   interval: 1m0s
-  values:
-    keycloak:
-      command:
-        - "/opt/keycloak/bin/kc.sh"
-        - "start"
-        - "--http-port=8080"
-        - "--hostname-strict=false"
-      extraEnv: |
-        - name: JAVA_OPTS_APPEND
-          value: >-
-            -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
-      # configure proxy through env variables
-      proxy:
-        enabled: true
-        mode: xforwarded

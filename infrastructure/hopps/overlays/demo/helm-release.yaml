@@ -98,36 +98,8 @@ spec:
     zugferd:
       image:
         tag: "838"
+      envFrom:
+        - secretRef:
+            name: zugferd
     keycloak:
-      http:
-        # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
-        relativePath: "/"
-      image:
-        tag: 18-keycloak-26.2.1
       enabled: false
-      database:
-        vendor: postgres
-        hostname: postgres-cluster-rw
-        port: 5432
-        database: keycloak
-        username: keycloak
-        existingSecret: keycloak-db-secret
-      ingress:
-        enabled: true
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          traefik.ingress.kubernetes.io/router.middlewares: hopps-demo-cors@kubernetescrd
-          # ToDo: re-implement public /metrics block (server-snippet replacement) — either via
-          # Keycloak/Quarkus management interface or a dedicated traefik IngressRoute that 403s the path
-        rules:
-          - host: id.demo.${DOMAIN_2}
-            paths:
-              - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
-                pathType: Prefix
-        tls:
-          - secretName: keycloak-tls
-            hosts:
-              - id.demo.${DOMAIN_2}
-        ingressClassName: traefik
-      serviceMonitor:
-        enabled: true

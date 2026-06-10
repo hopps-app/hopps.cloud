@@ -28,9 +28,9 @@ secretGenerator:
   - name: postgres-operator-secret
     envs:
       - secrets/postgres-cluster-secret-encrypted.env
-  - name: openai-api-key
+  - name: zugferd
     envs:
-      - secrets/openai-api-key-encrypted.env
+      - secrets/zugferd-secret-encrypted.env
   # database credentials
   - name: org-db-secret
     envs:
