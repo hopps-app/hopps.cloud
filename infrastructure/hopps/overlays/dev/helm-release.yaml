@@ -115,6 +115,7 @@ spec:
     # use already available keycloak
     keycloak:
       command:
+        - /opt/keycloak/bin/kc.sh
         - start
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
