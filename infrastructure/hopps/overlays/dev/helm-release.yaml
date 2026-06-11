@@ -114,6 +114,8 @@ spec:
             name: zugferd
     # use already available keycloak
     keycloak:
+      command:
+        - start
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
