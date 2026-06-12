@@ -117,7 +117,8 @@ spec:
       command:
         - /opt/keycloak/bin/kc.sh
         - start
-      cache: local
+      cache:
+        type: local
       extraEnv: |
         - name: KC_HOSTNAME
           value: id.dev.hopps.cloud
