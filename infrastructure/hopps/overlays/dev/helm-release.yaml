@@ -119,6 +119,7 @@ spec:
         - start
       cache:
         type: local
+        stack: ""
       extraEnv: |
         - name: KC_HOSTNAME
           value: id.dev.hopps.cloud
