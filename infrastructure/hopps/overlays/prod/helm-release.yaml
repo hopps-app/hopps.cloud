@@ -102,11 +102,14 @@ spec:
       cache:
         type: local
         stack: ""
+      # Traefik terminates TLS and forwards X-Forwarded-* headers, so Keycloak
+      # must parse those (xforwarded) instead of the RFC 7239 `Forwarded` header
+      # (chart default `forwarded`). Without this Keycloak builds http:// URLs.
+      proxy:
+        mode: xforwarded
       extraEnv: |
         - name: KC_HOSTNAME
           value: https://id.hopps.cloud
-        - name: KC_PROXY_HEADERS
-          value: xforwarded
       http:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
