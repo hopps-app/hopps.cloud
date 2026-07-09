@@ -15,6 +15,9 @@ spec:
       containers:
         - name: landing-page
           image: ghcr.io/hopps-app/landing-page:v12
+          envFrom:
+            - secretRef:
+                name: landing-page
           ports:
             - containerPort: 3000
 ---

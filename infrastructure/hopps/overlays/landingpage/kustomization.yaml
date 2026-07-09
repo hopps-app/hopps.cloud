@@ -4,3 +4,9 @@ namespace: hopps-landingpage
 resources:
   - namespace.yaml
   - landing-page.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+secretGenerator:
+  - name: landing-page
+    envs:
+      - secrets/landing-page-secret-encrypted.env
