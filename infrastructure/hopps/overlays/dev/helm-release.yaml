@@ -108,7 +108,7 @@ spec:
               - dev.${DOMAIN_2}
     zugferd:
       image:
-        tag: "900"
+        tag: "903"
       envFrom:
         - secretRef:
             name: zugferd
