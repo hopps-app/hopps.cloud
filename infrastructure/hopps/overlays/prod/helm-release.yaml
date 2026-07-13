@@ -15,14 +15,14 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: "892"
+        tag: "906"
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: "892"
+        tag: "906"
       envFrom:
         - secretRef:
             name: org
@@ -67,7 +67,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "1006"
+        tag: "1032"
       envFrom:
         - secretRef:
             name: frontend
@@ -89,7 +89,7 @@ spec:
               - ${DOMAIN_2}
     zugferd:
       image:
-        tag: "892"
+        tag: "906"
       envFrom:
         - secretRef:
             name: zugferd
@@ -114,7 +114,7 @@ spec:
         # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
         relativePath: "/"
       image:
-        tag: 162-keycloak-26.2.1
+        tag: 181-keycloak-26.2.1
       enabled: true
       database:
         vendor: postgres
