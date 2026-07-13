@@ -22,7 +22,7 @@ spec:
     # org
     org:
       image:
-        tag: "906"
+        tag: "907"
       envFrom:
         - secretRef:
             name: org
