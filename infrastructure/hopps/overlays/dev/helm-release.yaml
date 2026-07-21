@@ -86,7 +86,7 @@ spec:
     frontend:
       alphaVersion: true
       image:
-        tag: "1033"
+        tag: "1047"
       envFrom:
         - secretRef:
             name: frontend
