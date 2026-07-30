@@ -15,7 +15,7 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: "925"
+        tag: "926"
       envFrom:
         - secretRef:
             name: az-document-ai
@@ -67,7 +67,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "1075"
+        tag: "1078"
       envFrom:
         - secretRef:
             name: frontend
