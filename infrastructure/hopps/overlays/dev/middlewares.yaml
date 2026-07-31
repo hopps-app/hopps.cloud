@@ -16,7 +16,9 @@ spec:
       - "*"
     accessControlAllowOriginList:
       - "https://dev.${DOMAIN_2}"
+      - "https://admin.dev.${DOMAIN_2}"
       - "http://localhost:5173"
+      - "http://localhost:5174"
     accessControlMaxAge: 100
     addVaryHeader: true
 ---
@@ -38,8 +40,10 @@ spec:
       - "*"
     accessControlAllowOriginList:
       - "https://dev.${DOMAIN_2}"
+      - "https://admin.dev.${DOMAIN_2}"
       - "https://demo.${DOMAIN_2}"
       - "http://localhost:5173"
+      - "http://localhost:5174"
     accessControlMaxAge: 100
     addVaryHeader: true
 ---
