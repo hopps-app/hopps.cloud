@@ -1,4 +1,4 @@
-# CORS for API/Keycloak from the demo frontend origin
+# CORS for API/Keycloak from the demo frontend + admin origins
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
@@ -16,6 +16,7 @@ spec:
       - "*"
     accessControlAllowOriginList:
       - "https://demo.${DOMAIN_2}"
+      - "https://admin.demo.${DOMAIN_2}"
     accessControlMaxAge: 100
     addVaryHeader: true
 ---
