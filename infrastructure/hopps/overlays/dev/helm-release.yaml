@@ -34,6 +34,10 @@ spec:
           value: /q/swagger-ui
         - name: quarkus.smallrye-openapi.path
           value: /q/openapi
+        - name: HOPPS_SPA_URL
+          value: https://dev.${DOMAIN_2}/
+        - name: APP_HOPPS_ORG_AUTH_INVITATION_CLIENT_ID
+          value: hopps-frontend
         - name: quarkus.datasource.username
           valueFrom:
             secretKeyRef:

@@ -39,6 +39,10 @@ spec:
           value: /q/swagger-ui
         - name: quarkus.smallrye-openapi.path
           value: /q/openapi
+        - name: HOPPS_SPA_URL
+          value: https://demo.${DOMAIN_2}/
+        - name: APP_HOPPS_ORG_AUTH_INVITATION_CLIENT_ID
+          value: hopps-demo-frontend
         # Database secrets
         - name: quarkus.datasource.jdbc.url
           value: jdbc:postgresql://postgres-cluster-rw:5432/org?loggerLevel=OFF&sslmode=require
