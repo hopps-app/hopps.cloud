@@ -109,7 +109,7 @@ spec:
     # admin
     admin:
       image:
-        tag: "9"
+        tag: "16"
       envFrom:
         # same realm, client and org API as the frontend, by design
         - secretRef:
