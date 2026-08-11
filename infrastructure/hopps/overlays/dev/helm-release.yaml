@@ -9,9 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      # 0.2.8 (adds the admin templates) is unreleased — still open in
-      # hopps-app/hopps#750. Stay on 0.2.7 until that merges and publishes.
-      version: 0.2.7
+      version: 0.2.8
   interval: 1m0s
   values:
     # az-document-ai
