@@ -36,8 +36,13 @@ spec:
       - PATCH
       - DELETE
       - OPTIONS
+    # allow credentialed requests
+    accessControlAllowCredentials: true
     accessControlAllowHeaders:
-      - "*"
+      - "Authorization"
+      - "Content-Type"
+      - "Accept"
+      - "X-Requested-With"
     accessControlAllowOriginList:
       - "https://dev.${DOMAIN_2}"
       - "https://admin.dev.${DOMAIN_2}"
