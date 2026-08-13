@@ -104,11 +104,12 @@ spec:
       image:
         tag: "9"
       envFrom:
-        # same realm, client and org API as the frontend, by design
         - secretRef:
             name: frontend
       envVars:
-        # where impersonation lands the admin
+        - name: VITE_KEYCLOAK_CLIENT_ID
+          value: hopps-demo-admin
+        # member-facing SPA impersonation
         - name: VITE_SPA_URL
           value: https://demo.${DOMAIN_2}
       podSecurityContext:
