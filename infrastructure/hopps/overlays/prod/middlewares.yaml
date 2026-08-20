@@ -16,6 +16,7 @@ spec:
       - "*"
     accessControlAllowOriginList:
       - "https://${DOMAIN_2}"
+      - "https://admin.${DOMAIN_2}"
     accessControlMaxAge: 100
     addVaryHeader: true
 ---

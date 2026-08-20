@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.7
+      version: 0.2.9
   interval: 1m0s
   values:
     # az-document-ai
@@ -89,6 +89,35 @@ spec:
           - secretName: frontend-tls
             hosts:
               - ${DOMAIN_2}
+    # admin
+    admin:
+      image:
+        tag: "16"
+      envFrom:
+        - secretRef:
+            name: frontend
+      envVars:
+        - name: VITE_KEYCLOAK_CLIENT_ID
+          value: hopps-prod-admin
+        # member-facing SPA impersonation
+        - name: VITE_SPA_URL
+          value: https://${DOMAIN_2}
+      podSecurityContext:
+        fsGroup: 1000
+      ingress:
+        enabled: true
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        ingressClassName: traefik
+        hosts:
+          - host: admin.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: admin-tls
+            hosts:
+              - admin.${DOMAIN_2}
     zugferd:
       image:
         tag: "929"
