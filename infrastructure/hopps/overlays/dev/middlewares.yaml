@@ -61,5 +61,9 @@ metadata:
 spec:
   redirectRegex:
     regex: "^https?://([^/]+)/swagger/?$"
-    replacement: "https://${1}/q/swagger-ui"
+    # $$ escapes Flux postBuild var substitution so Traefik receives the literal
+    # ${1} capture-group backreference. A bare ${1} is read by Flux as an unset
+    # variable and (under strict substitution) fails the whole dev Kustomization
+    # build, blocking all dev deploys.
+    replacement: "https://$${1}/q/swagger-ui"
     permanent: false
