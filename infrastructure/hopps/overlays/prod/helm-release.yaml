@@ -158,7 +158,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors@kubernetescrd
+          traefik.ingress.kubernetes.io/router.middlewares: hopps-prod-cors-keycloak@kubernetescrd
           # ToDo: re-implement public /metrics block (server-snippet replacement) — either via
           # Keycloak/Quarkus management interface or a dedicated traefik IngressRoute that 403s the path
         rules:
