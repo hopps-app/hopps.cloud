@@ -141,7 +141,7 @@ spec:
               - admin.dev.${DOMAIN_2}
     zugferd:
       image:
-        tag: "952"
+        tag: "965"
       envFrom:
         - secretRef:
             name: zugferd
