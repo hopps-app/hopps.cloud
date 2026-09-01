@@ -79,7 +79,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "1129"
+        tag: "1165"
       envFrom:
         - secretRef:
             name: frontend
@@ -102,7 +102,7 @@ spec:
     # admin
     admin:
       image:
-        tag: "9"
+        tag: "16"
       envFrom:
         - secretRef:
             name: frontend
