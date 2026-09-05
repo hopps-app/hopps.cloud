@@ -46,7 +46,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -58,7 +58,7 @@ jobs:
         with:
           cmd: |
             yq e -i 'select(.spec.values.${{ inputs.service-name }}.image.tag = "${{ inputs.new-tag }}")' infrastructure/hopps/overlays/${{ inputs.environment }}/helm-release.yaml
-      - uses: stefanzweifel/git-auto-commit-action@v5.2.0
+      - uses: stefanzweifel/git-auto-commit-action@v7.2.0
         with:
           commit_message: "🚀 deploy ${{ inputs.environment }}/${{ inputs.service-name }} to ${{ inputs.new-tag }}"
     runs-on: ubuntu-latest
