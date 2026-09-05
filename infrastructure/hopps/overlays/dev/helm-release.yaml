@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.9
+      version: 0.2.10
   interval: 1m0s
   values:
     # az-document-ai
@@ -94,6 +94,12 @@ spec:
       envFrom:
         - secretRef:
             name: frontend
+      # Impressum/Datenschutz link to the canonical pages on hopps.app.
+      envVars:
+        - name: HOPPS_IMPRINT_URL
+          value: https://hopps.app/impressum
+        - name: HOPPS_PRIVACY_URL
+          value: https://hopps.app/datenschutz
       podSecurityContext:
         fsGroup: 1000
       ingress:
