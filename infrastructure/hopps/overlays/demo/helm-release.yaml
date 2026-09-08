@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.9
+      version: 0.2.11
   interval: 1m0s
   values:
     # az-document-ai
@@ -79,7 +79,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "1167"
+        tag: "1220"
       envFrom:
         - secretRef:
             name: frontend
