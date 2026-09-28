@@ -91,6 +91,19 @@ spec:
           value: https://hopps.app/impressum
         - name: HOPPS_PRIVACY_URL
           value: https://hopps.app/datenschutz
+        # Login via oidc-client-ts (hopps-app/hopps#817): the SPA no longer reads
+        # VITE_KEYCLOAK_* and refuses to start without these two. Set ahead of
+        # the merge, older images ignore them. demo has no Keycloak of its own
+        # and logs in at the one of dev. The client id stays in the secret;
+        # VITE_KEYCLOAK_* can be removed from it once the admin app has
+        # followed (hopps-app/hopps#838).
+        - name: VITE_OIDC_PROVIDER_URL
+          value: https://id.dev.hopps.cloud/realms/hopps
+        - name: VITE_OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: frontend
+              key: VITE_KEYCLOAK_CLIENT_ID
       podSecurityContext:
         fsGroup: 1000
       ingress:
