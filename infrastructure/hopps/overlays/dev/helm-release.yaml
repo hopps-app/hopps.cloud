@@ -113,6 +113,9 @@ spec:
             secretKeyRef:
               name: frontend
               key: VITE_KEYCLOAK_CLIENT_ID
+        # Must be set explicitly: the build minifies away the SPA's default scope
+        - name: VITE_OIDC_SCOPE
+          value: openid profile email
       podSecurityContext:
         fsGroup: 1000
       ingress:
