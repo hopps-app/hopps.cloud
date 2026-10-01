@@ -73,9 +73,6 @@ spec:
               - api.demo.${DOMAIN_2}
       managementIngress:
         enabled: false
-    # disable subchart for postgresql
-    postgresql-org:
-      enabled: false
     # frontend
     frontend:
       image:
