@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: hopps
-      version: 0.2.11
+      version: 0.4.0
   interval: 1m0s
   values:
     # az-document-ai
@@ -101,6 +101,9 @@ spec:
             secretKeyRef:
               name: frontend
               key: VITE_KEYCLOAK_CLIENT_ID
+        # Must be set explicitly: the build minifies away the SPA's default scope
+        - name: VITE_OIDC_SCOPE
+          value: openid profile email
       podSecurityContext:
         fsGroup: 1000
       ingress:
