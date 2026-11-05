@@ -132,7 +132,7 @@ spec:
     # admin
     admin:
       image:
-        tag: "245"
+        tag: "246"
       envFrom:
         - secretRef:
             name: frontend
