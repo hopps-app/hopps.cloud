@@ -15,14 +15,14 @@ spec:
     # az-document-ai
     azDocumentAi:
       image:
-        tag: "1070"
+        tag: "2.4.0"
       envFrom:
         - secretRef:
             name: az-document-ai
     # org
     org:
       image:
-        tag: "1070"
+        tag: "2.4.0"
       envFrom:
         - secretRef:
             name: org
@@ -76,7 +76,7 @@ spec:
     # frontend
     frontend:
       image:
-        tag: "1401"
+        tag: "2.4.0"
       envFrom:
         - secretRef:
             name: frontend
@@ -123,7 +123,7 @@ spec:
     # admin
     admin:
       image:
-        tag: "177"
+        tag: "2.4.0"
       envFrom:
         - secretRef:
             name: frontend
@@ -151,7 +151,7 @@ spec:
               - admin.demo.${DOMAIN_2}
     zugferd:
       image:
-        tag: "1070"
+        tag: "2.4.0"
       envFrom:
         - secretRef:
             name: zugferd
