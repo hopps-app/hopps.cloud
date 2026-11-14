@@ -46,6 +46,22 @@ spec:
             secretKeyRef:
               name: org-db-secret
               key: password
+        # Mail via Resend SMTP (registration notifications). Port 587 + STARTTLS,
+        # because 25 and 465 are blocked in the cluster. QUARKUS_MAILER_PASSWORD
+        # (the Resend API key) lives in the SOPS-encrypted org secret.
+        - name: QUARKUS_MAILER_HOST
+          value: smtp.resend.com
+        - name: QUARKUS_MAILER_PORT
+          value: "587"
+        - name: QUARKUS_MAILER_START_TLS
+          value: REQUIRED
+        - name: QUARKUS_MAILER_USERNAME
+          value: resend
+        - name: QUARKUS_MAILER_FROM
+          value: info@hopps.app
+        # Who gets a mail about every new organization (comma-separated).
+        - name: HOPPS_REGISTRATION_NOTIFICATION_RECIPIENTS
+          value: info@hopps.app
       ingress:
         enabled: true
         annotations:
