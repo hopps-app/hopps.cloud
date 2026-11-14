@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: landing-page
-          image: ghcr.io/hopps-app/landing-page:v31
+          image: ghcr.io/hopps-app/landing-page:v32
           envFrom:
             - secretRef:
                 name: landing-page
